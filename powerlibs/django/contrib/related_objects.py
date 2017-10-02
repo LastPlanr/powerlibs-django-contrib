@@ -5,4 +5,4 @@ def related_objects(target):
 	collector = Collector(None)
 	collector.add([target])
 
-	yield from self.instances_with_model()
+	yield from collector.instances_with_model()
