@@ -1,9 +1,7 @@
-from django.db import models
 from django.db.models.deletion import Collector
 from django.http import HttpResponse
 from powerlibs.django.restless.modelviews import DetailEndpoint
 from powerlibs.django.restless.http import Http400
-from django.views.generic import View
 
 
 def related_objects(target):
