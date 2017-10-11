@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = '0.1.0'
+version = '0.1.1'
 
 with open('requirements/production.txt') as requirements_file:
     requires = [line for line in requirements_file]
@@ -23,7 +23,7 @@ setup(
     author_email='cleberman@gmail.com',
     url='https://github.com/Dronemapp/powerlibs-django-contrib',
     license=license,
-    packages=['powerlibs.django.contrib'],
+    packages=['powerlibs.django.contrib', 'powerlibs.django.contrib.models'],
     package_data={'': ['LICENSE', 'README.md']},
     include_package_data=True,
     install_requires=requires,
