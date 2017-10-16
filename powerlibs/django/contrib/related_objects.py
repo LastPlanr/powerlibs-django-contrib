@@ -11,22 +11,15 @@ def related_objects(target):
         yield from collector.instances_with_model()
 
 
-class RelatedObjectsModelMixin(DetailEndpoint):
+class RelatedObjectsMixin(DetailEndpoint):
         """
         To use it this mixin, make a http OPTIONS request to the location you want to analyze.
         """
-
-        class Meta:
-            abstract = True
-
-        allowed_methods = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-
         def options(self, request, *args, **kwargs):
             if 'OPTIONS' not in self.allowed_methods:
                 return Http400('Method Not Allowed')
 
-            response = HttpResponse()
+            response = HttpResponse(list(related_objects(self.get_instance(self, request, *args, **kwargs))))
             response['Allow'] = self.allowed_methods
-            response['Related-Objects'] = list(related_objects(self.get_instance(self, request, *args, **kwargs)))
 
             return response
