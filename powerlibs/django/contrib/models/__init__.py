@@ -14,3 +14,17 @@ class SoftDeletableModelMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class SoftDeletionNotifier:
+    def post_update_crud_notifier(self, **context):
+        if self.deleted is True:
+            self.notify('soft_deleted')
+        else:
+            self.notify('updated')
+
+    def serialize(self):
+        data = super().serialize()
+        if 'deleted' in data:
+            del data['deleted']
+        return data
