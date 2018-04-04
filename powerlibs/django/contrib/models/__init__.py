@@ -12,10 +12,10 @@ class TimestampedModelMixin(models.Model):
 class SoftDeletableModelMixin(models.Model):
     deleted = models.BooleanField(default=False, editable=False)
 
-    def pre_delete_soft_deletable(self, **context):
+    def pre_update_soft_deletable(self, **context):
         self._was_deleted = self.deleted
 
-    def post_delete_soft_deletable(self, **context):
+    def post_update_soft_deletable(self, **context):
         previously_deleted = self._was_deleted
 
         if self.deleted and not previously_deleted:
