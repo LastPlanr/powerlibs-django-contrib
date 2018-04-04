@@ -13,7 +13,8 @@ class SoftDeletableModelMixin(models.Model):
     deleted = models.BooleanField(default=False, editable=False)
 
     def pre_update_soft_deletable(self, **context):
-        self._was_deleted = self.deleted
+        from_db = context['from_db']
+        self._was_deleted = from_db.deleted
 
     def post_update_soft_deletable(self, **context):
         previously_deleted = self._was_deleted
