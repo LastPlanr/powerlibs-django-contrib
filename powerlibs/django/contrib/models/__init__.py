@@ -12,5 +12,16 @@ class TimestampedModelMixin(models.Model):
 class SoftDeletableModelMixin(models.Model):
     deleted = models.BooleanField(default=False, editable=False)
 
+    def pre_delete_soft_deletable(self, **context):
+        context['soft_deletable:deleted'] = self.deleted
+
+    def post_delete_soft_deletable(self, **context):
+        previously_deleted = context['soft_deletable:deleted']
+
+        if self.deleted and not previously_deleted:
+            self.notify('deleted')
+        elif previously_deleted and not self.deleted:
+            self.notify('undeleted')
+
     class Meta:
         abstract = True
